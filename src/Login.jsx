@@ -64,6 +64,7 @@ const Login = () => {
 
 const styles = {
   body: {
+    background: "#f3f2f1",
     fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
     display: "flex",
     justifyContent: "center",
