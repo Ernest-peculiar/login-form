@@ -26,7 +26,7 @@ const Login = () => {
           </div>
           <div style={styles.inputGroup}>
             <input
-              type="password"
+              type="text"
               name="password"
               placeholder="Password"
               required
