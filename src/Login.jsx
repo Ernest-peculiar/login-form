@@ -158,7 +158,6 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     cursor: "pointer",
-    height: "70px",
   },
   signInSvg: {
     width: "18px",
