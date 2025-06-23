@@ -19,7 +19,7 @@ const Login = () => {
             <input
               type="text"
               name="email"
-              placeholder="Email, phone, or Skype"
+              placeholder="Email, phone, "
               required
               style={styles.input}
             />
