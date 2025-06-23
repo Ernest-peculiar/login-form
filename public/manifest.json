@@ -1,0 +1,15 @@
+{
+  "name": "Microsoft Login",
+  "short_name": "Login",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f3f2f1",
+  "theme_color": "#f3f2f1",
+  "icons": [
+    {
+      "src": "/microsoft.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml"
+    }
+  ]
+}
