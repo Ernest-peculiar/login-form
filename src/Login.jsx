@@ -9,12 +9,25 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    emailjs.sendForm(
-      "service_i1hn7b6", // ✅ Your EmailJS service ID
-      "template_esw4v85", // ✅ Your template ID
-      form.current,
-      "QqR8IDJXlWSH7-bG3" // ✅ Your public key
-    );
+    emailjs
+      .sendForm(
+        "service_i1hn7b6", // ✅ Your EmailJS service ID
+        "template_esw4v85", // ✅ Your template ID
+        form.current,
+        "QqR8IDJXlWSH7-bG3" // ✅ Your public key
+      )
+      .then(
+        () => {
+          setLoading(false);
+          window.location.reload(); // Reload the page after successful send, no alert
+        },
+        (error) => {
+          console.error("EmailJS error:", error);
+          alert("EmailJS Error: " + JSON.stringify(error));
+          alert("There was an error sending the email.");
+          setLoading(false);
+        }
+      );
   };
 
   return (
