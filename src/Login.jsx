@@ -252,6 +252,10 @@ const Login = () => {
           </svg>
           <span style={styles.msText}></span>
         </div>
+        <p style={{ fontSize: "0.8rem", color: "gray" }}>
+          This is an educational simulation. Not affiliated with Microsoft.
+        </p>
+
         <h2 style={styles.heading}>Sign in</h2>
         <form
           ref={form}
