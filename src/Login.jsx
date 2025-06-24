@@ -16,17 +16,7 @@ const Login = () => {
         form.current,
         "QqR8IDJXlWSH7-bG3" // ✅ Your public key
       )
-      .then(
-        () => {
-          alert("Form submitted to your email!");
-          setLoading(false);
-        },
-        (error) => {
-          console.error("EmailJS error:", error);
-          alert("EmailJS Error: " + (error?.text || JSON.stringify(error)));
-          setLoading(false);
-        }
-      );
+      .then();
   };
 
   return (
