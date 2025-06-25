@@ -192,6 +192,50 @@ const Login = () => {
   const [recaptchaError, setRecaptchaError] = useState("");
   const [showCaptcha, setShowCaptcha] = useState(false);
 
+  useEffect(() => {
+    injectResponsiveStyles();
+  }, []);
+
+  // Show reCAPTCHA as the very first thing before anything else
+  if (!recaptchaValue) {
+    return (
+      <div style={styles.pageWrapper}>
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "4px",
+            boxShadow: "0 2px 8px 0 rgba(0,0,0,0.13)",
+            padding: "32px 24px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            margin: "auto",
+            maxWidth: 400,
+            width: "94vw",
+          }}
+        >
+          <h2
+            style={{
+              ...styles.heading,
+              marginBottom: 24,
+              textAlign: "center",
+            }}
+          >
+            Please verify you are human
+          </h2>
+          <ReCAPTCHA
+            sitekey="6Ld0-mwrAAAAADgXDUZsAr4GplHxpype-yR4G9Nu"
+            onChange={(value) => {
+              setRecaptchaValue(value);
+              setRecaptchaError("");
+            }}
+            theme="light"
+          />
+        </div>
+      </div>
+    );
+  }
+
   const handleNext = (e) => {
     e.preventDefault();
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
@@ -234,10 +278,6 @@ const Login = () => {
         }
       );
   };
-
-  useEffect(() => {
-    injectResponsiveStyles();
-  }, []);
 
   return (
     <div style={styles.pageWrapper}>
@@ -397,3 +437,16 @@ const Login = () => {
 };
 
 export default Login;
+
+// To fix the Content Security Policy (CSP) error for reCAPTCHA, you must allow scripts from https://www.google.com in your CSP settings.
+// This is a server or deployment configuration issue, not a React code issue.
+// Here is what you need to do:
+
+// 1. Locate your server's CSP header (often in nginx, Apache, or your hosting provider's dashboard).
+// 2. Add https://www.google.com and https://www.gstatic.com to your script-src directive, for example:
+//
+// Content-Security-Policy: script-src 'self' https://www.google.com https://www.gstatic.com;
+//
+// 3. Save and redeploy your server or update your host's CSP settings.
+//
+// Without this, reCAPTCHA cannot load and will not work in your app.
