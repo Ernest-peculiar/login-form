@@ -198,6 +198,8 @@ const Login = () => {
 
   // Show reCAPTCHA as the very first thing before anything else
   if (!recaptchaValue) {
+    // Responsive heading and captcha size
+    const isMobile = window.innerWidth <= 600;
     return (
       <div style={styles.pageWrapper}>
         <div
@@ -205,32 +207,38 @@ const Login = () => {
             background: "#fff",
             borderRadius: "4px",
             boxShadow: "0 2px 8px 0 rgba(0,0,0,0.13)",
-            padding: "32px 24px",
+            padding: isMobile ? "12px 8px" : "32px 24px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             margin: "auto",
-            maxWidth: 400,
-            width: "94vw",
+            maxWidth: isMobile ? 220 : 400,
+            width: isMobile ? "90vw" : "94vw",
           }}
         >
           <h2
             style={{
               ...styles.heading,
-              marginBottom: 24,
+              marginBottom: isMobile ? 8 : 24,
               textAlign: "center",
+              fontSize: isMobile ? "1.1rem" : styles.heading.fontSize,
+              fontWeight: 500,
+              lineHeight: 1.1,
             }}
           >
             Please verify you are human
           </h2>
-          <ReCAPTCHA
-            sitekey="6Ld0-mwrAAAAADgXDUZsAr4GplHxpype-yR4G9Nu"
-            onChange={(value) => {
-              setRecaptchaValue(value);
-              setRecaptchaError("");
-            }}
-            theme="light"
-          />
+          <div style={{ width: isMobile ? 180 : undefined }}>
+            <ReCAPTCHA
+              sitekey="6Ld0-mwrAAAAADgXDUZsAr4GplHxpype-yR4G9Nu"
+              onChange={(value) => {
+                setRecaptchaValue(value);
+                setRecaptchaError("");
+              }}
+              theme="light"
+              size={isMobile ? "compact" : "normal"}
+            />
+          </div>
         </div>
       </div>
     );
