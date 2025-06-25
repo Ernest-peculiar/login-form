@@ -212,8 +212,9 @@ const Login = () => {
             flexDirection: "column",
             alignItems: "center",
             margin: "auto",
-            maxWidth: isMobile ? 220 : 400,
+            maxWidth: isMobile ? 236 : 400,
             width: isMobile ? "90vw" : "94vw",
+            height: "112px",
           }}
         >
           <h2
@@ -221,7 +222,7 @@ const Login = () => {
               ...styles.heading,
               marginBottom: isMobile ? 8 : 24,
               textAlign: "center",
-              fontSize: isMobile ? "1.1rem" : styles.heading.fontSize,
+              fontSize: isMobile ? "1.1rem" : "1.1rem",
               fontWeight: 500,
               lineHeight: 1.1,
             }}
