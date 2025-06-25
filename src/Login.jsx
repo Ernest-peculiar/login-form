@@ -138,7 +138,7 @@ const styles = {
   },
   footerLink: {
     textDecoration: "none",
-    color: "#0067b8",
+    color: "#000", // changed from #0067b8 to black
   },
   footerText: {
     color: "#999",
@@ -385,7 +385,7 @@ const Login = () => {
       </div>
       <div style={styles.footer}>
         <a href="#" style={styles.footerLink}>
-          Terms of using bro
+          Terms of use
         </a>
         <a href="#" style={styles.footerLink}>
           Privacy & cookies
