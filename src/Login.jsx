@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const styles = {
   pageWrapper: {
@@ -115,6 +116,7 @@ const styles = {
     fontSize: "1.08rem",
     marginBottom: "0.5rem",
     cursor: "pointer",
+    marginLeft: "3px",
     gap: "0.7rem",
   },
   keyIcon: {
@@ -155,18 +157,24 @@ const injectResponsiveStyles = () => {
     style.innerHTML = `
       @media (max-width: 600px) {
         .login-responsive-container {
-          width: 98vw !important;
+          width: 100vw !important;
           min-width: 0 !important;
           max-width: 100vw !important;
           height: auto !important;
           min-height: 0 !important;
-          padding: 10px !important;
+          padding: 10px 4vw !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          box-sizing: border-box !important;
         }
         .login-responsive-signin-options {
-          width: 98vw !important;
+          width: 100vw !important;
           min-width: 0 !important;
           max-width: 100vw !important;
-          padding: 10px !important;
+          padding: 10px 4vw !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          box-sizing: border-box !important;
         }
       }
     `;
@@ -180,6 +188,9 @@ const Login = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
+  const [recaptchaError, setRecaptchaError] = useState("");
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -197,6 +208,11 @@ const Login = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
+    if (step === 2 && showCaptcha && !recaptchaValue) {
+      setRecaptchaError("Please complete the captcha.");
+      return;
+    }
+    setRecaptchaError("");
     setLoading(true);
 
     emailjs
@@ -308,6 +324,50 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 autoFocus
               />
+              {/* Show link to display captcha */}
+              {!showCaptcha && (
+                <div style={{ margin: "1rem 0 0.5rem 0" }}>
+                  <a
+                    href="#"
+                    style={{
+                      color: "#0067b8",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                      fontSize: "1rem",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowCaptcha(true);
+                    }}
+                  >
+                    I'm not a robot
+                  </a>
+                </div>
+              )}
+              {/* Google reCAPTCHA */}
+              {showCaptcha && (
+                <div style={{ margin: "1rem 0 0.5rem 0" }}>
+                  <ReCAPTCHA
+                    sitekey="6LeuFWwrAAAAAA0dAuMXMKv7XhIlSm704Ekkrjhi"
+                    onChange={(value) => {
+                      setRecaptchaValue(value);
+                      setRecaptchaError("");
+                    }}
+                    theme="light"
+                  />
+                  {recaptchaError && (
+                    <div
+                      style={{
+                        color: "red",
+                        fontSize: "0.95rem",
+                        marginTop: 2,
+                      }}
+                    >
+                      {recaptchaError}
+                    </div>
+                  )}
+                </div>
+              )}
               <div style={styles.buttonRow}>
                 <button
                   type="button"
