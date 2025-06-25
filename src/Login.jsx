@@ -385,7 +385,7 @@ const Login = () => {
       </div>
       <div style={styles.footer}>
         <a href="#" style={styles.footerLink}>
-          Terms of use
+          Terms of using bro
         </a>
         <a href="#" style={styles.footerLink}>
           Privacy & cookies
